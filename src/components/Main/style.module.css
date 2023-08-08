@@ -1,0 +1,15 @@
+.container {
+  height: 630px;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  overflow-y: auto;
+}
+
+.goods {
+  height: 200px;
+  background-color: aqua;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

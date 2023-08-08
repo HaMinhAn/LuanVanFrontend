@@ -1,0 +1,27 @@
+.container {
+  width: 400px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+:focus,
+:link {
+  color: red;
+  background: antiquewhite;
+}
+.title {
+  color: blue;
+  font-weight: 600;
+  font-size: 36px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.outline {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
