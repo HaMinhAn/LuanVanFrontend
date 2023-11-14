@@ -1,0 +1,19 @@
+.outline {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 36;
+  font-weight: bold;
+  color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: space-between;
+}

@@ -4,10 +4,12 @@
   border-radius: 10px;
 }
 
-:focus,
 :link {
-  color: red;
-  background: antiquewhite;
+  color: white;
+  background: green;
+}
+:link {
+  color: #f0f0f0;
 }
 .title {
   color: blue;
