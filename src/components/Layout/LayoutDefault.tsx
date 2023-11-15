@@ -37,7 +37,7 @@ const LayoutDefault = (props: { children: React.ReactNode }) => {
   }, []);
   return (
     <Layout style={{ height: "98vh" }}>
-      <Header className={styles.header} style={{ backgroundColor: "green" }}>
+      <Header className={styles.header} style={{ backgroundColor: "blue" }}>
         <div>
           <div
             className={styles.logo}
@@ -92,12 +92,9 @@ const LayoutDefault = (props: { children: React.ReactNode }) => {
           }}
           mode="horizontal"
           overflowedIndicator={<MenuFoldOutlined />}
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          defaultSelectedKeys={id == "2" ? ["book"] : ["0"]}
           // style={{ borderRight: 0 }}
-          items={
-            localStorage.getItem("id") == "2" ? AdminElements : HomeElements
-          }
+          items={id == "2" ? AdminElements : HomeElements}
         />
         {/* </Sider> */}
         <Layout style={{ padding: "0 24px 24px" }}>

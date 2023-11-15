@@ -8,7 +8,7 @@ const Login = () => {
   return (
     <div className={styles.outline}>
       <div className={styles.container}>
-        <div className={styles.title}>Title</div>
+        <div className={styles.title}>BOOKBUY</div>
         <Tabs
           defaultActiveKey="login"
           activeKey={selected}

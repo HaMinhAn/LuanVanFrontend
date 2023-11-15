@@ -75,19 +75,28 @@ const OrderAction = (props: { data: Order }) => {
       setUpdate(new Date());
     });
   };
+  const showPopconfirm = () => {
+    const isReceived = props.data.status !== OrderStatus.RECEIVED;
+    const isAdmin = user === "admin";
+    const isCancel = props.data.status !== OrderStatus.CANCEL;
+    return (!isAdmin && isCancel) || (isAdmin && isReceived);
+  };
   return (
     <div>
       <Row gutter={4}>
         <Col>
           <Button onClick={handShow}>Xem thêm</Button>
         </Col>
-        {props.data.status !== OrderStatus.RECEIVED ? (
+        {showPopconfirm() ? (
           <Col>
             <Popconfirm
               title="Cập nhật trạng thái đơn hàng"
               okButtonProps={{
                 disabled:
-                  user !== "admin" && props.data.status === OrderStatus.PENDING,
+                  (user !== "admin" &&
+                    props.data.status === OrderStatus.PENDING) ||
+                  (user === "admin" &&
+                    props.data.status === OrderStatus.CANCEL),
               }}
               onConfirm={handleConfirm}
               onCancel={handleCancle}

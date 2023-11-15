@@ -8,7 +8,7 @@ export const Detail = (props: { data: Product }) => {
       <h1>Chi tiết {props.data.name}</h1>
       <div style={{ width: 350 }}>
         <Row
-          style={{ backgroundColor: "rgb(240 232 232)" }}
+          style={{ backgroundColor: "rgb(232 233 240)" }}
           gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
         >
           <Col className="gutter-row" span={8}>
@@ -27,7 +27,7 @@ export const Detail = (props: { data: Product }) => {
           </Col>
         </Row>
         <Row
-          style={{ backgroundColor: "rgb(240 232 232)" }}
+          style={{ backgroundColor: "rgb(232 233 240)" }}
           gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
         >
           <Col className="gutter-row" span={8}>
@@ -46,7 +46,7 @@ export const Detail = (props: { data: Product }) => {
           </Col>
         </Row>
         <Row
-          style={{ backgroundColor: "rgb(240 232 232)" }}
+          style={{ backgroundColor: "rgb(232 233 240)" }}
           gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
         >
           <Col className="gutter-row" span={8}>

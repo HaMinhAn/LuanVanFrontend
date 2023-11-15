@@ -53,12 +53,9 @@ const Payment = (props: { data: Product }) => {
         </Row>
         <Row>
           <Col>
-            <Button onClick={() => AddToCart(props.data)}>
+            <Button type="primary" onClick={() => AddToCart(props.data)}>
               Thêm vào giỏ hàng
             </Button>
-          </Col>
-          <Col>
-            <Button>Mua</Button>
           </Col>
         </Row>
       </Col>
