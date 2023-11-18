@@ -14,9 +14,22 @@
 .site-layout-background {
   background: #fff;
 } */
-
+.logo {
+  font-size: large;
+  cursor: pointer;
+  width: 100px;
+  color: white;
+  height: 60px;
+}
 .header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.center {
+  display: flex;
+  width: 500px;
+  min-width: 200px;
+  justify-content: center;
+  align-items: center;
 }

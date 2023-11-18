@@ -1,53 +1,9 @@
-import {
-  AutoComplete,
-  Button,
-  Cascader,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  InputNumber,
-  Row,
-  Select,
-} from "antd";
+import { Button, Form, Input, Select, message } from "antd";
 import React, { useState } from "react";
-
+import { RegisterRequest } from "../../types/User";
+import { ApiGateway, UserService } from "../../service/api";
+import { useHistory } from "react-router";
 const { Option } = Select;
-
-const residences = [
-  {
-    value: "zhejiang",
-    label: "Zhejiang",
-    children: [
-      {
-        value: "hangzhou",
-        label: "Hangzhou",
-        children: [
-          {
-            value: "xihu",
-            label: "West Lake",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: "jiangsu",
-    label: "Jiangsu",
-    children: [
-      {
-        value: "nanjing",
-        label: "Nanjing",
-        children: [
-          {
-            value: "zhonghuamen",
-            label: "Zhong Hua Men",
-          },
-        ],
-      },
-    ],
-  },
-];
 
 const formItemLayout = {
   labelCol: {
@@ -74,9 +30,26 @@ const tailFormItemLayout = {
 
 const RegisterForm: React.FC = () => {
   const [form] = Form.useForm();
-
+  const history = useHistory();
+  // const [infor, setInfor] = useState<RegisterRequest>();
   const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+    const infor: RegisterRequest = {
+      username: values.email,
+      password: values.password,
+      name: values.nickname,
+      age: 10,
+      phoneNumber: values.phone,
+      sex: values.gender === "Male" ? true : false,
+      adress: values.address,
+    };
+    ApiGateway.post({ url: "/v1/users/register", data: infor })
+      .then((res) => {
+        ApiGateway.setAuthHeader(res.data.token);
+        message.success("Đăng ký thành công");
+      })
+      .catch((e) => {
+        message.error("Xảy ra lỗi");
+      });
   };
 
   const prefixSelector = (
@@ -87,32 +60,6 @@ const RegisterForm: React.FC = () => {
       </Select>
     </Form.Item>
   );
-
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
-
-  const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-
-  const onWebsiteChange = (value: string) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(
-        [".com", ".org", ".net"].map((domain) => `${value}${domain}`)
-      );
-    }
-  };
-
-  const websiteOptions = autoCompleteResult.map((website) => ({
-    label: website,
-    value: website,
-  }));
 
   return (
     <Form
@@ -132,10 +79,6 @@ const RegisterForm: React.FC = () => {
         name="email"
         label="E-mail"
         rules={[
-          {
-            type: "email",
-            message: "The input is not valid E-mail!",
-          },
           {
             required: true,
             message: "Please input your E-mail!",
@@ -198,7 +141,20 @@ const RegisterForm: React.FC = () => {
       >
         <Input />
       </Form.Item>
-
+      <Form.Item
+        name="adress"
+        label="Adress"
+        tooltip="where do you live?"
+        rules={[
+          {
+            required: true,
+            message: "Please input your adress!",
+            whitespace: true,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
       <Form.Item
         name="phone"
         label="Phone Number"
