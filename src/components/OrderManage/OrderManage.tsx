@@ -111,19 +111,14 @@ const columns: ColumnsType<Order> = [
     },
   },
 ];
-export const OrderManage = () => {
-  const [data, setData] = useState<Order[]>([]);
+export const OrderManage = (props: { data: Order[] }) => {
   const { update } = useCategory();
-  useEffect(() => {
-    ApiGateway.get({ url: "order" }).then((res) => {
-      setData(res.data);
-    });
-  }, [update]);
+  useEffect(() => {}, [update]);
   return (
     <Table
       rowKey={(record) => `${record.id}`}
       columns={columns}
-      dataSource={data}
+      dataSource={props.data}
       pagination={{ pageSize: 5, showSizeChanger: false }}
     />
   );

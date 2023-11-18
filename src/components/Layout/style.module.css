@@ -26,3 +26,10 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.center {
+  display: flex;
+  width: 500px;
+  min-width: 200px;
+  justify-content: center;
+  align-items: center;
+}

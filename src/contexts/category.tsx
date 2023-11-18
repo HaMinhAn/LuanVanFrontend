@@ -7,6 +7,7 @@ interface ContextProps {
   setCategory: React.Dispatch<React.SetStateAction<number>>;
   setUpdate: React.Dispatch<React.SetStateAction<Date>>;
   update: Date;
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
 }
 const CategoryContext = createContext({} as ContextProps);
 const CategoryProvider = (props: { children: React.ReactNode }) => {
@@ -30,10 +31,10 @@ const CategoryProvider = (props: { children: React.ReactNode }) => {
         .catch((e) => {
           console.log(e);
         });
-  }, [category, update]);
+  }, [category]);
   return (
     <CategoryContext.Provider
-      value={{ products, setCategory, setUpdate, update }}
+      value={{ products, setCategory, setUpdate, update, setProducts }}
     >
       <>{props.children}</>
     </CategoryContext.Provider>

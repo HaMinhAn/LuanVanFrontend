@@ -20,7 +20,6 @@ const TestComponent = () => {
   return (
     <div>
       <Button onClick={handleCLick}>Pay</Button>
-      <OrderManage />
     </div>
   );
 };

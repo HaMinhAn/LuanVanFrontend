@@ -1,25 +1,24 @@
 import {
+  AudioOutlined,
   LaptopOutlined,
   MenuFoldOutlined,
   NotificationOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu } from "antd";
+import { Layout, Menu, Input } from "antd";
 import React, { useEffect, useState } from "react";
-import Main from "../../components/Main/Main";
 import styles from "./style.module.css";
 import { Link, useHistory } from "react-router-dom";
 import { ApiGateway, UserService } from "../../service/api";
 import { AdminElements, AdminItems, HomeElements } from "../../utils/Navbar";
-import { Product } from "../../types/Product";
 import { useCategory } from "../../contexts/category";
-import { useAuth } from "../../contexts/auth";
-const { Header, Content, Sider, Footer } = Layout;
 
+const { Search } = Input;
+const { Header, Content } = Layout;
 const LayoutDefault = (props: { children: React.ReactNode }) => {
   const history = useHistory();
-  const { setCategory } = useCategory();
+  const { setCategory, setProducts, setUpdate } = useCategory();
   // const { user } = useAuth();
   const [name, setName] = useState(window.localStorage.getItem("user") || "");
   const id = localStorage.getItem("id");
@@ -35,6 +34,32 @@ const LayoutDefault = (props: { children: React.ReactNode }) => {
       });
     }
   }, []);
+  const onChangeSearch = (e: any) => {
+    const id = setTimeout(() => {
+      ApiGateway.get({
+        url: "/book/search",
+        configs: { params: { name: e.target.value } },
+      })
+        .then((res) => {
+          console.log(res.data);
+          setProducts(res.data);
+          setUpdate(new Date());
+        })
+        .finally(() => {
+          clearTimeout(id);
+        });
+    }, 2000);
+  };
+  const onSearch = (value: any, _e: any) => {
+    ApiGateway.get({
+      url: "/book/search",
+      configs: { params: { name: value } },
+    }).then((res) => {
+      console.log(res.data);
+      setProducts(res.data);
+      setUpdate(new Date());
+    });
+  };
   return (
     <Layout style={{ height: "98vh" }}>
       <Header className={styles.header} style={{ backgroundColor: "blue" }}>
@@ -48,34 +73,36 @@ const LayoutDefault = (props: { children: React.ReactNode }) => {
             Logo
           </div>
         </div>
-        <div
-          style={{
-            width: 200,
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          {name ? (
-            <>
-              <Menu
-                mode="horizontal"
-                items={AdminItems(name)}
-                onClick={(e) => {
-                  if (e.key === "orderDetail") {
-                    history.push("/order/detail");
-                  }
-                }}
-              />
-            </>
-          ) : (
-            <>
-              <Link to={"/login"} style={{ color: "white" }}>
-                Log in
-              </Link>
-              <div style={{ width: 40 }}></div>
-            </>
-          )}
-        </div>
+        {name ? (
+          <>
+            {name !== "admin" ? (
+              <div className={styles.center}>
+                <Search
+                  placeholder="Tìm tên sách"
+                  enterButton="Search"
+                  size="middle"
+                  onChange={onChangeSearch}
+                  onSearch={onSearch}
+                />
+              </div>
+            ) : null}
+            <Menu
+              mode="horizontal"
+              items={AdminItems(name)}
+              onClick={(e) => {
+                if (e.key === "orderDetail") {
+                  history.push("/order/detail");
+                }
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <Link to={"/login"} style={{ color: "white" }}>
+              Log in
+            </Link>
+          </>
+        )}
       </Header>
       <Layout>
         {/* <Sider> */}

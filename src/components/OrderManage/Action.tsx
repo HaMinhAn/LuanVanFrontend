@@ -65,7 +65,7 @@ const OrderAction = (props: { data: Order }) => {
         setUpdate(new Date());
       });
     } else {
-      ApiGateway.put({ url: `/order/${props.data.id}/1` }).then(() => {
+      ApiGateway.put({ url: `/order/${props.data.id}/2` }).then(() => {
         setUpdate(new Date());
       });
     }
@@ -79,6 +79,7 @@ const OrderAction = (props: { data: Order }) => {
     const isReceived = props.data.status !== OrderStatus.RECEIVED;
     const isAdmin = user === "admin";
     const isCancel = props.data.status !== OrderStatus.CANCEL;
+
     return (!isAdmin && isCancel) || (isAdmin && isReceived);
   };
   return (
