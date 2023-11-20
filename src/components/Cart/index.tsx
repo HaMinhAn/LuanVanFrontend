@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ApiGateway, BookService, CartService } from "../../service/api";
-import { useAuth } from "../../contexts/auth";
-import { CartType } from "../../types/CartItem";
 import Items from "../Items";
 import { Button, message } from "antd";
 import { useHistory } from "react-router-dom";

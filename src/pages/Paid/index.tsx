@@ -9,32 +9,35 @@ const Paid = () => {
   const { setUpdate } = useCategory();
   const [spin, setSpin] = useState(true);
   const history = useHistory();
-  useEffect(() => {
-    const data = localStorage.getItem("order") || "";
-    const codereturn = window.location.search;
-    if (codereturn && codereturn.includes("vnp_ResponseCode=00")) {
-      ApiGateway.post({
-        url: "/order",
-        data: { ...JSON.parse(data), paid: true },
-      })
-        .then((res) => {
-          message.info("Bạn đã thanh toán thành công");
-          setUpdate(new Date());
-          history.push("/");
-        })
-        .finally(() => {
-          setSpin(false);
-        });
-    } else {
-      const id = setTimeout(() => {
-        message.error("Xảy ra lỗi khi thanh toán");
-        setSpin(false);
+  // useEffect(() => {
+  const data = localStorage.getItem("order") || "";
+  const codereturn = window.location.search;
+  if (data !== "" && codereturn && codereturn.includes("vnp_ResponseCode=00")) {
+    console.log("Loadinngggggggg");
+    ApiGateway.post({
+      url: "/order",
+      data: { ...JSON.parse(data), paid: true },
+    })
+      .then((res) => {
+        message.info("Bạn đã thanh toán thành công");
         setUpdate(new Date());
-        clearTimeout(id);
         history.push("/");
-      }, 3000);
-    }
-  }, []);
+      })
+      .finally(() => {
+        setSpin(false);
+      });
+
+    localStorage.removeItem("order");
+  } else if (codereturn && !codereturn.includes("vnp_ResponseCode=00")) {
+    const id = setTimeout(() => {
+      message.error("Xảy ra lỗi khi thanh toán");
+      setSpin(false);
+      setUpdate(new Date());
+      clearTimeout(id);
+      history.push("/");
+    }, 3000);
+  }
+  // }, []);
   return (
     <div className="example">
       <Spin spinning={spin} />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CartType, ItemCart } from "../../types/CartItem";
 import { Col, Image, InputNumber, Row } from "antd";
-import { ApiGateway, CartService } from "../../service/api";
+import { ApiGateway } from "../../service/api";
 import { useCategory } from "../../contexts/category";
 import { DeleteFilled } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";

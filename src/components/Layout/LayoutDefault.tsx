@@ -10,7 +10,7 @@ import { Layout, Menu, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { Link, useHistory } from "react-router-dom";
-import { ApiGateway, UserService } from "../../service/api";
+import { ApiGateway } from "../../service/api";
 import { AdminElements, AdminItems, HomeElements } from "../../utils/Navbar";
 import { useCategory } from "../../contexts/category";
 

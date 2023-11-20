@@ -1,7 +1,4 @@
 import { Button, Image } from "antd";
-import React from "react";
-import { ApiGateway, BookService } from "../../service/api";
-import { OrderManage } from "../../components/OrderManage/OrderManage";
 
 const TestComponent = () => {
   // BookService.get({ url: "api/book/service01" }).then((res) => {

@@ -10,8 +10,12 @@ const OrderDetailPage = () => {
   const [data, setData] = useState<Order[]>([]);
   const { user } = useAuth();
   const { setUpdate, update } = useCategory();
+  const [name, setName] = useState<string>(localStorage.getItem("user") || "");
   useEffect(() => {
-    ApiGateway.get({ url: `order/private/${user}` }).then((res) => {
+    setName(localStorage.getItem("user") || "");
+  }, []);
+  useEffect(() => {
+    ApiGateway.get({ url: `order/private/${name}` }).then((res) => {
       setData(res.data);
     });
   }, [update]);

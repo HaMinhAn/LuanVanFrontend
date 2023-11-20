@@ -2,7 +2,7 @@ import { Button, Col, Row, message } from "antd";
 import { Product } from "../../types/Product";
 import { useAuth } from "../../contexts/auth";
 import { AddCart } from "../../types/CartItem";
-import { ApiGateway, CartService } from "../../service/api";
+import { ApiGateway } from "../../service/api";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { useCategory } from "../../contexts/category";

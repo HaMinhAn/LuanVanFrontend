@@ -1,7 +1,7 @@
 import { Button, Form, Input, Select, message } from "antd";
 import React, { useState } from "react";
 import { RegisterRequest } from "../../types/User";
-import { ApiGateway, UserService } from "../../service/api";
+import { ApiGateway } from "../../service/api";
 import { useHistory } from "react-router";
 const { Option } = Select;
 

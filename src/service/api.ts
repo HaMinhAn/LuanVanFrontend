@@ -64,8 +64,5 @@ class HostName {
   };
 }
 
-const UserService = new HostName("http://localhost:9003/api/v1/users/");
-const BookService = new HostName("http://localhost:9001/api/book/");
-const CartService = new HostName("http://localhost:9004/api/basket/");
 const ApiGateway = new HostName("http://localhost:8762/api/");
-export { UserService, BookService, CartService, ApiGateway };
+export { ApiGateway };
