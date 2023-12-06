@@ -9,11 +9,9 @@ const Paid = () => {
   const { setUpdate } = useCategory();
   const [spin, setSpin] = useState(true);
   const history = useHistory();
-  // useEffect(() => {
   const data = localStorage.getItem("order") || "";
   const codereturn = window.location.search;
   if (data !== "" && codereturn && codereturn.includes("vnp_ResponseCode=00")) {
-    console.log("Loadinngggggggg");
     ApiGateway.post({
       url: "/order",
       data: { ...JSON.parse(data), paid: true },
@@ -26,7 +24,6 @@ const Paid = () => {
       .finally(() => {
         setSpin(false);
       });
-
     localStorage.removeItem("order");
   } else if (codereturn && !codereturn.includes("vnp_ResponseCode=00")) {
     const id = setTimeout(() => {
@@ -37,7 +34,6 @@ const Paid = () => {
       history.push("/");
     }, 3000);
   }
-  // }, []);
   return (
     <div className="example">
       <Spin spinning={spin} />

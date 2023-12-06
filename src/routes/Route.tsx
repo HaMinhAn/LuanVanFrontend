@@ -19,6 +19,8 @@ import CheckoutPage from "../pages/CheckoutPage/CheckoutPage";
 import Paid from "../pages/Paid";
 import OrderManagePage from "../pages/OrderManagePage";
 import OrderDetailPage from "../pages/OrderDetailPage";
+import ChartPage from "../pages/ChartPage";
+import UserInfor from "../pages/UserInforPage";
 // const adminRoutes: CustomRoutes[] = [
 //   { path: "/login", exact: true, component: Login },
 //   { path: "/", exact: true, component: HomePage },
@@ -66,6 +68,7 @@ const routes: CustomRoutes[] = [
     key: "OrderDetailPage",
   },
   { path: "/paid", exact: true, component: Paid, key: "Paid" },
+  { path: "/user", exact: true, component: UserInfor, key: "UserInfor" },
 ];
 const ErrorPage: CustomRoutes[] = [
   {
@@ -102,6 +105,7 @@ const RouteManage = () => {
         component={OrderManagePage}
         key={"admin-order"}
       />
+      <Route path="/admin/chart" exact component={ChartPage} />
       <Route path="/infor/:id" exact component={InforPhonePage} key={"infor"} />
       {/* <Route path="/test" exact component={TestComponent} /> */}
       {/* {ErrorPage.map((route, key) => {

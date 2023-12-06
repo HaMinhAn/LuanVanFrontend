@@ -30,7 +30,7 @@ const AuthProvider = (props: { children: React.ReactNode }) => {
         history.push("/");
       })
       .catch(() => {
-        message.error("nhập sai thông tin");
+        message.error("Nhập sai thông tin");
       });
   };
   const isAdmin = () => {

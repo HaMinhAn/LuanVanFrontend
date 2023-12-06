@@ -8,8 +8,7 @@ import { useAuth } from "../../contexts/auth";
 
 const OrderDetailPage = () => {
   const [data, setData] = useState<Order[]>([]);
-  const { user } = useAuth();
-  const { setUpdate, update } = useCategory();
+  const { update } = useCategory();
   const [name, setName] = useState<string>(localStorage.getItem("user") || "");
   useEffect(() => {
     setName(localStorage.getItem("user") || "");

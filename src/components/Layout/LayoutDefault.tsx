@@ -41,12 +41,12 @@ const LayoutDefault = (props: { children: React.ReactNode }) => {
         configs: { params: { name: e.target.value } },
       })
         .then((res) => {
-          console.log(res.data);
           setProducts(res.data);
           setUpdate(new Date());
         })
         .finally(() => {
           clearTimeout(id);
+          history.push("/");
         });
     }, 2000);
   };
@@ -55,9 +55,9 @@ const LayoutDefault = (props: { children: React.ReactNode }) => {
       url: "/book/search",
       configs: { params: { name: value } },
     }).then((res) => {
-      console.log(res.data);
       setProducts(res.data);
       setUpdate(new Date());
+      history.push("/");
     });
   };
   return (
@@ -70,7 +70,7 @@ const LayoutDefault = (props: { children: React.ReactNode }) => {
               history.push("/");
             }}
           >
-            Logo
+            Book Buy
           </div>
         </div>
         {name ? (
@@ -79,27 +79,28 @@ const LayoutDefault = (props: { children: React.ReactNode }) => {
               <div className={styles.center}>
                 <Search
                   placeholder="Tìm tên sách"
-                  enterButton="Search"
+                  enterButton="Tìm"
                   size="middle"
                   onChange={onChangeSearch}
                   onSearch={onSearch}
                 />
               </div>
             ) : null}
-            <Menu
-              mode="horizontal"
-              items={AdminItems(name)}
-              onClick={(e) => {
-                if (e.key === "orderDetail") {
-                  history.push("/order/detail");
-                }
-              }}
-            />
+            <Menu mode="horizontal" items={AdminItems(name)} />
           </>
         ) : (
           <>
+            <div className={styles.center}>
+              <Search
+                placeholder="Tìm tên sách"
+                enterButton="Tìm"
+                size="middle"
+                onChange={onChangeSearch}
+                onSearch={onSearch}
+              />
+            </div>
             <Link to={"/login"} style={{ color: "white" }}>
-              Log in
+              Đăng nhập
             </Link>
           </>
         )}
@@ -107,21 +108,15 @@ const LayoutDefault = (props: { children: React.ReactNode }) => {
       <Layout>
         {/* <Sider> */}
         <Menu
-          onClick={(e) => {
-            if (e.key === "book") {
-              history.push("/admin/book");
-            } else if (e.key === "order") {
-              history.push("/admin/order");
-            } else {
-              history.push("/");
-              setCategory(parseInt(e.key));
-            }
-          }}
           mode="horizontal"
           overflowedIndicator={<MenuFoldOutlined />}
           defaultSelectedKeys={id == "2" ? ["book"] : ["0"]}
           // style={{ borderRight: 0 }}
-          items={id == "2" ? AdminElements : HomeElements}
+          items={
+            id == "2"
+              ? AdminElements(history)
+              : HomeElements(history, setCategory)
+          }
         />
         {/* </Sider> */}
         <Layout style={{ padding: "0 24px 24px" }}>

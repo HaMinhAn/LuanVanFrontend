@@ -18,7 +18,7 @@ const Pay = () => {
           window.location.href = res.data;
         })
         .catch((e) => {
-          console.log(e);
+          message.error("Hệ thống có lỗi xin vui lòng thử lại sau!");
         });
     } else {
       ApiGateway.post({

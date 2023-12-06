@@ -14,6 +14,7 @@ const mockA = (amount: number, product1: Product[]) => {
 const checkLogin = (login: string | null) => {
   return login ? console.log("aHI") : null;
 };
+
 const Main = () => {
   const { products } = useCategory();
   const history = useHistory();
@@ -58,9 +59,12 @@ const Main = () => {
                 </div>
                 <div
                   key={`Price-${mock.id}`}
-                  style={{ color: "red", fontSize: 24 }}
+                  style={{
+                    color: "red",
+                    fontSize: 24,
+                  }}
                 >
-                  {mock.price} Đ
+                  {mock.price.toLocaleString("vi-VN")}Đ
                 </div>
               </div>
             </Col>
