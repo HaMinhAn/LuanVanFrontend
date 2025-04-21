@@ -1,36 +1,24 @@
-# Build docker image.
-# Sử dung node
-FROM node:20.19-bullseye as node
+# Stage 1: Build app using Node
+FROM node:20.19-bullseye AS builder
 
-# Khai báo tham số
 ARG workdir=.
-LABEL description="deploy malv app"
+LABEL description="Deploy Vite-based React app"
 
-# Khái báo workdir trong node.
 WORKDIR /app
-
-# Copy project vào trong workdir của node.
 COPY ${workdir}/ /app/
 
-# Cài đặt các thư viện node liên quan.
+# Install dependencies and build the app
 RUN npm install
-
-# Chạy lệnh build.
 RUN npm run build
 
-# Sử dụng nginx
+# Stage 2: Serve with Nginx
 FROM nginx:latest
-# Copy folder đã được build vào folder chạy của nginx.
-COPY --from=node /app/build/ /var/www/dist/
 
-# Copy file cấu hình chạy cho nginx (file nginx.conf sẽ tạo ở bước tiếp theo)
-COPY --from=node /app/nginx.conf /etc/nginx/nginx.conf
+# Copy build output to nginx's public directory
+COPY --from=builder /app/dist/ /usr/share/nginx/html/
 
-# Cài đặt curl cho câu lệnh check HEALTH
-RUN apt-get update && apt-get install -y curl
+# Replace default nginx config with custom one (optional)
+COPY --from=builder /app/nginx.conf /etc/nginx/nginx.conf
 
-# Kiểm tra trạng thái của container sau khi chạy
-HEALTHCHECK --interval=1m --timeout=3s \
-  CMD curl -f http://localhost || exit 1
-
+# Start nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
