@@ -1,5 +1,5 @@
 # Stage 1: Build app using Node
-FROM node:20.19-bullseye as builder
+FROM node:20-alpine as builder
 
 LABEL description="Deploy Vite-based React app"
 
