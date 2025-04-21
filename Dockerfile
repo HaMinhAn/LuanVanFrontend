@@ -14,10 +14,13 @@ RUN npm run build
 # Stage 2: Serve with Nginx
 FROM nginx:latest
 
+# Expose port 3000 for OpenShift or custom port usage
+EXPOSE 3000
+
 # Copy build output to nginx's public directory
 COPY --from=builder /app/dist/ /usr/share/nginx/html/
 
-# Replace default nginx config with custom one (optional)
+# Replace default nginx config with custom one
 COPY --from=builder /app/nginx.conf /etc/nginx/nginx.conf
 
 # Start nginx in the foreground
