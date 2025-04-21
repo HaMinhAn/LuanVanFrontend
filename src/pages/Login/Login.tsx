@@ -19,7 +19,7 @@ const Login = () => {
             <LoginForm />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Đăng ký" key="register">
-            <RegisterForm />
+            <RegisterForm sellect={setSelected} />
           </Tabs.TabPane>
         </Tabs>
       </div>

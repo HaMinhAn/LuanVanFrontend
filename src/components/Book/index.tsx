@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../types/Product";
-import { ApiGateway, BookService } from "../../service/api";
+import { ApiGateway } from "../../service/api";
 import ImageBox from "../Image";
 import { Detail } from "../Detail";
 import Payment from "../Payment";

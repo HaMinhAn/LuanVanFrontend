@@ -1,9 +1,16 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { Button, Col, Image, InputNumber, Modal, Popconfirm, Row } from "antd";
+import {
+  Button,
+  Col,
+  Image,
+  InputNumber,
+  Modal,
+  Popconfirm,
+  Row,
+  message,
+} from "antd";
 import React, { useState } from "react";
 import { Order, OrderStatus } from "../../types/order";
-import Cart from "../Cart";
-import Items from "../Items";
 import { ApiGateway } from "../../service/api";
 import { useCategory } from "../../contexts/category";
 import { useAuth } from "../../contexts/auth";
@@ -60,27 +67,43 @@ const OrderAction = (props: { data: Order }) => {
     setShow(!show);
   };
   const handleConfirm = () => {
+    const body = {
+      id: props.data.id,
+      state: 1,
+      email: props.data.email,
+      user: user,
+    };
     if (user === "admin") {
-      ApiGateway.put({ url: `/order/${props.data.id}/1` }).then(() => {
+      ApiGateway.put({ url: `/order/update/status`, data: body }).then(() => {
+        message.info("Cập nhật trạng thái đơn hàng thành công");
         setUpdate(new Date());
       });
     } else {
-      ApiGateway.put({ url: `/order/${props.data.id}/2` }).then(() => {
+      ApiGateway.put({
+        url: `/order/update/status`,
+        data: { ...body, state: 2 },
+      }).then(() => {
+        message.info("Cập nhật trạng thái đơn hàng thành công");
         setUpdate(new Date());
       });
     }
   };
   const handleCancle = () => {
-    ApiGateway.put({ url: `/order/${props.data.id}/0` }).then(() => {
+    const body = {
+      id: props.data.id,
+      state: 0,
+      email: props.data.email,
+      user: user,
+    };
+    ApiGateway.put({ url: `/order/update/status`, data: body }).then(() => {
+      message.info("Hủy đơn hàng thành công");
       setUpdate(new Date());
     });
   };
   const showPopconfirm = () => {
-    const isReceived = props.data.status !== OrderStatus.RECEIVED;
-    const isAdmin = user === "admin";
-    const isCancel = props.data.status !== OrderStatus.CANCEL;
-
-    return (!isAdmin && isCancel) || (isAdmin && isReceived);
+    const isReceived = props.data.status === OrderStatus.RECEIVED;
+    const isCancel = props.data.status === OrderStatus.CANCEL;
+    return !isCancel && !isReceived;
   };
   return (
     <div>
@@ -92,12 +115,15 @@ const OrderAction = (props: { data: Order }) => {
           <Col>
             <Popconfirm
               title="Cập nhật trạng thái đơn hàng"
+              okText="Xác nhận"
+              cancelText="Hủy"
               okButtonProps={{
                 disabled:
                   (user !== "admin" &&
                     props.data.status === OrderStatus.PENDING) ||
                   (user === "admin" &&
-                    props.data.status === OrderStatus.CANCEL),
+                    (props.data.status === OrderStatus.CANCEL ||
+                      props.data.status === OrderStatus.SHIPPING)),
               }}
               onConfirm={handleConfirm}
               onCancel={handleCancle}

@@ -1,11 +1,13 @@
 import { Button, Col, Row, message } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { Product } from "../../types/Product";
 import { ApiGateway } from "../../service/api";
 import { useCategory } from "../../contexts/category";
+import ModelEditBook from "./modelEditBook";
 
 const Action = (props: { data: Product }) => {
   const { setUpdate } = useCategory();
+  const [show, setShow] = useState(false);
   const handleRemove = () => {
     ApiGateway.delete({ url: `/book/${props.data.id}` })
       .then(() => {
@@ -20,14 +22,25 @@ const Action = (props: { data: Product }) => {
     <div>
       <Row gutter={4}>
         <Col>
-          <Button>Edit</Button>
+          <Button
+            onClick={() => {
+              setShow(true);
+            }}
+          >
+            Cập nhật
+          </Button>
         </Col>
         <Col>
           <Button onClick={handleRemove} danger>
-            Remove
+            Xóa
           </Button>
         </Col>
       </Row>
+      <ModelEditBook
+        data={props.data}
+        isModalOpen={show}
+        setIsModalOpen={setShow}
+      />
     </div>
   );
 };

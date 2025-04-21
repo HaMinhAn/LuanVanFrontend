@@ -10,6 +10,7 @@ import {
   Select,
   SelectProps,
   Space,
+  message,
 } from "antd";
 import { BookRequest, Manufacturer } from "../../types/Product";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -39,7 +40,6 @@ const CustomModal = (props: {
   const [modalshow, setModalShow] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>();
   const { setUpdate } = useCategory();
-  console.log(props.isModalOpen);
   useEffect(() => {
     getAuthor().then((res) => setAuthor(res));
     getLanguage().then((res) => setLanguage(res));
@@ -47,9 +47,13 @@ const CustomModal = (props: {
     getCategory().then((res) => setCategory(res));
   }, []);
   const onFinish = (values: BookRequest) => {
-    ApiGateway.post({ url: "/book", data: values }).then(() => {
-      setUpdate(new Date());
-    });
+    ApiGateway.post({ url: "/book", data: values })
+      .then(() => {
+        setUpdate(new Date());
+      })
+      .catch(() => {
+        message.error("Sách đã tồn tại!");
+      });
     props.setIsModalOpen(false);
   };
 
@@ -157,7 +161,7 @@ const CustomModal = (props: {
                         <div>Hình ảnh {key + 1}: </div>
                         <Form.Item
                           {...restField}
-                          name={[name, "cation"]}
+                          name={[name, "caption"]}
                           rules={[
                             {
                               required: true,
@@ -199,9 +203,8 @@ const CustomModal = (props: {
           </Row>
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit">
-              Submit
+              Thêm sách
             </Button>
-            <Button htmlType="button">Reset</Button>
           </Form.Item>
         </Form>
       </Modal>

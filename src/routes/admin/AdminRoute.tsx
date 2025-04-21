@@ -5,7 +5,7 @@ import LayoutDefault from "../../components/Layout/LayoutDefault";
 import { Button, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Product } from "../../types/Product";
-import { ApiGateway, BookService } from "../../service/api";
+import { ApiGateway } from "../../service/api";
 import Action from "../../components/Action";
 import CustomModal from "../../components/CustomModal";
 import { useCategory } from "../../contexts/category";

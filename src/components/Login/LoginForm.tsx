@@ -34,23 +34,23 @@ const LoginForm = () => {
       }}
     >
       <Form.Item
-        label="Username"
+        label="Email"
         name="username"
-        rules={[{ required: true, message: "Please input your username!" }]}
+        rules={[{ required: true, message: "Nhập email!" }]}
       >
         <Input />
       </Form.Item>
 
       <Form.Item
-        label="Password"
+        label="Mật khẩu"
         name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
+        rules={[{ required: true, message: "Nhập mật khẩu!" }]}
       >
         <Input.Password />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Button type="primary" htmlType="submit">
-          Submit
+          Đăng nhập
         </Button>
       </Form.Item>
     </Form>

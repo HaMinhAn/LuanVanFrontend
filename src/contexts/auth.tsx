@@ -1,6 +1,6 @@
 import { message } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { ApiGateway, UserService } from "../service/api";
+import { ApiGateway } from "../service/api";
 import { useHistory } from "react-router-dom";
 import { useCategory } from "./category";
 interface ContextProps {
@@ -15,7 +15,7 @@ const AuthProvider = (props: { children: React.ReactNode }) => {
   const { update } = useCategory();
 
   useEffect(() => {
-    if (user) setUser(localStorage.getItem("name") || "");
+    if (!user) setUser(localStorage.getItem("name") || "");
   }, [user, update]);
   const login = (username: string, password: string) => {
     ApiGateway.post({
@@ -30,7 +30,7 @@ const AuthProvider = (props: { children: React.ReactNode }) => {
         history.push("/");
       })
       .catch(() => {
-        message.error("nhập sai thông tin");
+        message.error("Nhập sai thông tin");
       });
   };
   const isAdmin = () => {

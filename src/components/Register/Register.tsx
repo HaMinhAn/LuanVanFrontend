@@ -1,8 +1,9 @@
-import { Button, Form, Input, Select, message } from "antd";
+import { Button, DatePicker, Form, Input, Select, message } from "antd";
 import React, { useState } from "react";
 import { RegisterRequest } from "../../types/User";
-import { ApiGateway, UserService } from "../../service/api";
+import { ApiGateway } from "../../service/api";
 import { useHistory } from "react-router";
+import moment from "moment";
 const { Option } = Select;
 
 const formItemLayout = {
@@ -28,38 +29,34 @@ const tailFormItemLayout = {
   },
 };
 
-const RegisterForm: React.FC = () => {
+const RegisterForm = (props: {
+  sellect: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [form] = Form.useForm();
   const history = useHistory();
   // const [infor, setInfor] = useState<RegisterRequest>();
   const onFinish = (values: any) => {
-    const infor: RegisterRequest = {
+    const infor = {
       username: values.email,
       password: values.password,
       name: values.nickname,
       age: 10,
       phoneNumber: values.phone,
       sex: values.gender === "Male" ? true : false,
-      adress: values.address,
+      address: values.address,
+      dateTime: moment(values.dateTime).format(),
     };
     ApiGateway.post({ url: "/v1/users/register", data: infor })
       .then((res) => {
         ApiGateway.setAuthHeader(res.data.token);
+
         message.success("Đăng ký thành công");
+        props.sellect("login");
       })
       .catch((e) => {
         message.error("Xảy ra lỗi");
       });
   };
-
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    </Form.Item>
-  );
 
   return (
     <Form
@@ -67,10 +64,6 @@ const RegisterForm: React.FC = () => {
       form={form}
       name="register"
       onFinish={onFinish}
-      initialValues={{
-        residence: ["zhejiang", "hangzhou", "xihu"],
-        prefix: "86",
-      }}
       style={{
         padding: "10px",
       }}
@@ -81,7 +74,7 @@ const RegisterForm: React.FC = () => {
         rules={[
           {
             required: true,
-            message: "Please input your E-mail!",
+            message: "Hãy nhập E-mail!",
           },
         ]}
       >
@@ -90,11 +83,11 @@ const RegisterForm: React.FC = () => {
 
       <Form.Item
         name="password"
-        label="Password"
+        label="Mật khẩu"
         rules={[
           {
             required: true,
-            message: "Please input your password!",
+            message: "Hãy nhập mật khẩu!",
           },
         ]}
         hasFeedback
@@ -104,22 +97,20 @@ const RegisterForm: React.FC = () => {
 
       <Form.Item
         name="confirm"
-        label="Confirm Password"
+        label="Xác nhận mật khẩu"
         dependencies={["password"]}
         hasFeedback
         rules={[
           {
             required: true,
-            message: "Please confirm your password!",
+            message: "Nhập lại mật khẩu!",
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
               if (!value || getFieldValue("password") === value) {
                 return Promise.resolve();
               }
-              return Promise.reject(
-                new Error("The two passwords that you entered do not match!")
-              );
+              return Promise.reject(new Error("Mật khẩu không giống!"));
             },
           }),
         ]}
@@ -129,12 +120,11 @@ const RegisterForm: React.FC = () => {
 
       <Form.Item
         name="nickname"
-        label="Nickname"
-        tooltip="What do you want others to call you?"
+        label="Tên người dùng"
         rules={[
           {
             required: true,
-            message: "Please input your nickname!",
+            message: "Nhập tên người dùng!",
             whitespace: true,
           },
         ]}
@@ -142,13 +132,25 @@ const RegisterForm: React.FC = () => {
         <Input />
       </Form.Item>
       <Form.Item
-        name="adress"
-        label="Adress"
-        tooltip="where do you live?"
+        name="dateTime"
+        label="Ngày sinh"
         rules={[
           {
             required: true,
-            message: "Please input your adress!",
+            message: "Nhập ngày sinh của bạn!",
+          },
+        ]}
+      >
+        <DatePicker placeholder="Chọn ngày sinh" />
+      </Form.Item>
+      <Form.Item
+        name="address"
+        label="Địa chỉ"
+        tooltip="Bạn sống ở đâu"
+        rules={[
+          {
+            required: true,
+            message: "Hãy nhập địa chỉ!",
             whitespace: true,
           },
         ]}
@@ -157,25 +159,24 @@ const RegisterForm: React.FC = () => {
       </Form.Item>
       <Form.Item
         name="phone"
-        label="Phone Number"
-        rules={[{ required: true, message: "Please input your phone number!" }]}
+        label="Số điện thoại"
+        rules={[{ required: true, message: "Nhập số điện thoại!" }]}
       >
-        <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+        <Input style={{ width: "100%" }} />
       </Form.Item>
       <Form.Item
         name="gender"
-        label="Gender"
-        rules={[{ required: true, message: "Please select gender!" }]}
+        label="Giới tinh"
+        rules={[{ required: true, message: "Chọn giới tính!" }]}
       >
-        <Select placeholder="select your gender">
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-          <Option value="other">Other</Option>
+        <Select placeholder="Chọn giới tính">
+          <Option value="male">Nam</Option>
+          <Option value="female">Nữ</Option>
         </Select>
       </Form.Item>
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
-          Register
+          Đăng ký
         </Button>
       </Form.Item>
     </Form>

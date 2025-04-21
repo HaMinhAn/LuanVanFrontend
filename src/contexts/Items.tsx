@@ -1,6 +1,6 @@
 import { message } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { ApiGateway, BookService } from "../service/api";
+import { ApiGateway } from "../service/api";
 import { Product } from "../types/Product";
 import { CartType } from "../types/CartItem";
 import { RecieveInfo } from "../types/User";
