@@ -1,6 +1,6 @@
 # Build docker image.
 # Sử dung node
-FROM node:14 as node
+FROM node:20.19-bullseye as node
 
 # Khai báo tham số
 ARG workdir=.
