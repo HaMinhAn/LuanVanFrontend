@@ -14,7 +14,11 @@ RUN npm run build
 FROM nginx:alpine
 
 # Create temp dirs and give proper permissions
-RUN mkdir -p /tmp/nginx/client_temp && \
+RUN mkdir -p /tmp/nginx/client_temp \
+             /tmp/nginx/proxy_temp \
+             /tmp/nginx/fastcgi_temp \
+             /tmp/nginx/uwsgi_temp \
+             /tmp/nginx/scgi_temp && \
     chmod -R 777 /tmp/nginx
 
 # Override default nginx.conf
