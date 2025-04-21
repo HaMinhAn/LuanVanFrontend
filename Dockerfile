@@ -12,16 +12,20 @@ RUN npm install
 RUN npm run build
 
 # Stage 2: Serve with Nginx
-FROM nginx:latest
+FROM nginx:alpine
 
-# Expose port 3000 for OpenShift or custom port usage
-EXPOSE 3000
+# Create temp dirs and give proper permissions
+RUN mkdir -p /tmp/nginx/client_temp && \
+    chmod -R 777 /tmp/nginx
 
-# Copy build output to nginx's public directory
-COPY --from=builder /app/dist/ /usr/share/nginx/html/
+# Override default nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Replace default nginx config with custom one
-COPY --from=builder /app/nginx.conf /etc/nginx/nginx.conf
+# Set ENV vars for new temp dir
+ENV NGINX_CLIENT_TEMP_PATH=/tmp/nginx/client_temp
+
+# Copy your built app
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Start nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
