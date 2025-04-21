@@ -1,11 +1,10 @@
 # Stage 1: Build app using Node
-FROM node:20.19-bullseye AS builder
+FROM node:20.19-bullseye as builder
 
-ARG workdir=.
 LABEL description="Deploy Vite-based React app"
 
 WORKDIR /app
-COPY ${workdir}/ /app/
+COPY . /app/
 
 # Install dependencies and build the app
 RUN npm install
@@ -24,8 +23,8 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Set ENV vars for new temp dir
 ENV NGINX_CLIENT_TEMP_PATH=/tmp/nginx/client_temp
 
-# Copy your built app
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copy the built app from the builder stage
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Start nginx in the foreground
+# Run nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
