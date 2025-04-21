@@ -13,13 +13,7 @@ RUN npm run build
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
 
-# Create temp dirs and give proper permissions
-RUN mkdir -p /tmp/nginx/client_temp \
-             /tmp/nginx/proxy_temp \
-             /tmp/nginx/fastcgi_temp \
-             /tmp/nginx/uwsgi_temp \
-             /tmp/nginx/scgi_temp && \
-    chmod -R 777 /tmp/nginx
+USER root
 
 # Override default nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
